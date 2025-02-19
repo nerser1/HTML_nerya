@@ -1,3 +1,9 @@
+body{
+    background-color: rgb(225, 252, 255);
+}
+h1{
+    font-size: 80px;
+}
 .content{
     gap: 20px;
     justify-content: space-between;
@@ -6,4 +12,30 @@
 
 .card{
     height: 300px;
+}
+
+button{
+    border-radius: 20px;
+}
+
+h6{
+    height: 50px;
+    background-color: rgb(59, 59, 59);
+    color: white;
+    margin-bottom: 0;
+    border-radius: 5px;
+    text-align: center;
+    padding-top: 10px;
+}
+.content_card{
+    height: 180px;
+}
+.programming{
+    background-color: rgb(152, 207, 255);
+}
+.general{
+    background-color: antiquewhite;
+}
+.knock-knock{
+    background-color: rgb(165, 250, 250);
 }

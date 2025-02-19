@@ -2,10 +2,12 @@ console.log(dataJokes)
 
 function printCard(type, setup, punchline, id){
     document.getElementById("content").innerHTML += `<div class="card" style="width: 18rem;">
-                            <div class="card-body">
-                                <h6 class="card-title">${type}</h6>
-                                <h4 class="card-subtitle mb-2 text-body-secondary">${setup}</h4>
+                            <h6>${type}</h6>
+                            <div  class="card-body ${type} d-flex flex-column">
+                                <div id="question" class="content_card">
+                                <h5 class="card-subtitle mb-2 text-body-secondary">${setup}</h5>
                                 <p class="card-text">${punchline} </p>
+                                </div>
                                 <button href="#" onClick="favoriteMe(dataJokes, ${id})" class="favorite_btn">
                                 <i class="bi bi-star"></i>
                                 Favorite</button>
@@ -24,6 +26,7 @@ function init(){
     if(!localStorage.getItem("favoritesJokes")){
     localStorage.setItem("favoritesJokes", favoritesJokes)
     }  
+
 }
 
 function checkDouble(array, id){
@@ -36,7 +39,7 @@ function checkDouble(array, id){
     return false;
 }
 
-function favoriteMe(dataJokes, id, favoritesJokes){
+function favoriteMe(dataJokes, id){
     const strFavorites = localStorage.getItem("favoritesJokes");
     const favoriteIndex = dataJokes.findIndex(function(currentJoke){
         return currentJoke.id.toString() === id.toString()
@@ -59,7 +62,7 @@ function favoriteMe(dataJokes, id, favoritesJokes){
                 if (double == false){
                     favoritesJokes.push(dataJokes[favoriteIndex])
                     localStorage.setItem("favoritesJokes", JSON.stringify(favoritesJokes))        
-                }
+                } 
             }
         } else{
             localStorage.setItem("favoritesJokes", JSON.stringify(dataJokes[favoriteIndex]))

@@ -2,13 +2,15 @@ console.log(dataJokes)
 
 function printCard(type, setup, punchline, id){
     document.getElementById("content_favorites").innerHTML += `<div class="card" style="width: 18rem;">
-                            <div class="card-body">
-                                <h6 class="card-title">${type}</h6>
-                                <h4 class="card-subtitle mb-2 text-body-secondary">${setup}</h4>
+                            <h6>${type}</h6> 
+                            <div class="card-body ${type} d-flex flex-column">
+                                <div class="content_card">
+                                <h5 class="card-subtitle mb-2 text-body-secondary">${setup}</h5>
                                 <p class="card-text">${punchline} </p>
+                                </div>
                                 <button href="#" onClick="unfavoriteMe(${id})" class="favorite_btn">
-                                <i class="bi bi-star"></i>
-                                Favorite</button>
+                                <i class="bi bi-star-fill"></i>
+                                Unfavorite</button>
                             </div>
                         </div>`
     console.log(document.getElementById("content"))
