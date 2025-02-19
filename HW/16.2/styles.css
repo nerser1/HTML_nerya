@@ -1,0 +1,9 @@
+.content{
+    gap: 20px;
+    justify-content: space-between;
+    margin-bottom: 50px;
+}
+
+.card{
+    height: 300px;
+}
