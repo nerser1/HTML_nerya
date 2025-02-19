@@ -4,7 +4,7 @@ function printCard(type, setup, punchline, id){
     document.getElementById("content_favorites").innerHTML += `<div class="card" style="width: 18rem;">
                             <h6>${type}</h6> 
                             <div class="card-body ${type} d-flex flex-column">
-                                <div class="content_card">
+                                <div id="content_card" onClick="punch(${punchline})" class="content_card">
                                 <h5 class="card-subtitle mb-2 text-body-secondary">${setup}</h5>
                                 <p class="card-text">${punchline} </p>
                                 </div>
@@ -22,6 +22,7 @@ function printCardArray(array){
     }
 }
 
+
 function init(){
     const strFavorites = localStorage.getItem("favoritesJokes");
     if(strFavorites){
@@ -36,7 +37,12 @@ function init(){
             printCard(favoritesJokes.type, favoritesJokes.setup, favoritesJokes.punchline, favoritesJokes.id)
         }
 
-}
+    }
+    const contentCard = document.getElementById("content_card")
+    contentCard.addEventListener("click", function(){
+        contentCard.append("")
+    })
+
 }
 
 function unfavoriteMe(id){
