@@ -26,6 +26,8 @@ function init(){
     if(!localStorage.getItem("favoritesJokes")){
     localStorage.setItem("favoritesJokes", favoritesJokes)
     }  
+    getStatistic(dataJokes);
+
 
 }
 

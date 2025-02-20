@@ -38,10 +38,9 @@ function init(){
         }
 
     }
-    const contentCard = document.getElementById("content_card")
-    contentCard.addEventListener("click", function(){
-        contentCard.append("")
-    })
+    const favoritesJokes = JSON.parse(localStorage.getItem("favoritesJokes"))
+    const numOfFavorites = favoritesJokes.length
+    getStatistic(favoritesJokes)
 
 }
 
