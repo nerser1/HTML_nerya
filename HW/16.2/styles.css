@@ -17,6 +17,17 @@ h1{
 button{
     border-radius: 20px;
 }
+.title{
+    background-color: rgb(59, 59, 59);
+    justify-content: space-around
+}
+
+.checkBox{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
 
 h6{
     height: 50px;
@@ -26,6 +37,8 @@ h6{
     border-radius: 5px;
     text-align: center;
     padding-top: 10px;
+    padding-right: 3rem;
+    width: 14rem;
 }
 .content_card{
     height: 180px;

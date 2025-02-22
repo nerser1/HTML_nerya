@@ -13,7 +13,6 @@ function printCard(type, setup, punchline, id){
                                 Unfavorite</button>
                             </div>
                         </div>`
-    console.log(document.getElementById("content"))
 }
 function printCardArray(array){
     for (let index = 0; index < array.length; index++) {
