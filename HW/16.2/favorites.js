@@ -2,9 +2,9 @@ console.log(dataJokes)
 
 function printCard(type, setup, punchline, id){
     document.getElementById("content_favorites").innerHTML += `<div class="card" style="width: 18rem;">
-                            <h6>${type}</h6> 
+                            <h6 class="headerFavorite">${type}</h6> 
                             <div class="card-body ${type} d-flex flex-column">
-                                <div id="content_card" onClick="punch(${punchline})" class="content_card">
+                                <div id="content_card" class="content_card">
                                 <h5 class="card-subtitle mb-2 text-body-secondary">${setup}</h5>
                                 <p class="card-text">${punchline} </p>
                                 </div>

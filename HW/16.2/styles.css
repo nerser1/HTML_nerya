@@ -2,7 +2,12 @@ body{
     background-color: rgb(225, 252, 255);
 }
 h1{
-    font-size: 80px;
+    font-size: 70px;
+}
+#favoriteCheckedBtn{
+    margin-left: 50px;
+    height: 60px;
+    width: 285px;
 }
 .content{
     gap: 20px;
@@ -11,7 +16,17 @@ h1{
 }
 
 .card{
-    height: 300px;
+    height: auto;
+}
+
+.headerFavorite{
+    height: 50px;
+    background-color: rgb(59, 59, 59);
+    color: white;
+    margin-bottom: 0;
+    border-radius: 5px;
+    text-align: center;
+    padding-top: 10px;
 }
 
 button{
@@ -19,7 +34,8 @@ button{
 }
 .title{
     background-color: rgb(59, 59, 59);
-    justify-content: space-around
+    justify-content: space-around;
+    border-radius: 5px;
 }
 
 .checkBox{
@@ -29,7 +45,7 @@ button{
     
 }
 
-h6{
+.headerIndex{
     height: 50px;
     background-color: rgb(59, 59, 59);
     color: white;
@@ -42,6 +58,10 @@ h6{
 }
 .content_card{
     height: 180px;
+}
+.form-check-label{
+    padding: 0;
+    margin: 0;
 }
 .programming{
     background-color: rgb(152, 207, 255);

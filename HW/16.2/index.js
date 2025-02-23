@@ -3,8 +3,8 @@ console.log(dataJokes)
 function printCard(type, setup, punchline, id){
     document.getElementById("content").innerHTML += `<div class="card" style="width: 18rem;">
                             <div class="d-flex title flex-wrap">
-                                <input type="checkbox" onClick="updateChecked(dataJokes,checkBox${id}, ${id})" class"col-2" id="checkBox${id}" value="">
-                                  <label class="form-check-label" for="checkBox${id}"><h6>${type}</h6></label>
+                                <input type="checkbox" onClick="updateChecked(dataJokes,checkBox${id}, ${id})" class"col-2" id="checkBox${id}" value="" >
+                                  <label class="form-check-label-title" for="checkBox${id}"><h6 class="headerIndex">${type}</h6></label>
                                   <label class="form-check-label" for="checkBox${id}">
                                   <div  class="card-body ${type} d-flex flex-column col-12">
                                         <div id="question" class="content_card">
@@ -39,32 +39,65 @@ function init(){
 
 }
 
+function mergeFavorites(checked, favorites){
+    for (let index = 0; index < checked.length; index++) {
+        const element = checked[index];
+        const double = checkDouble(favorites, element.id)
+        if(!double){
+            favorites.push(element)
+        } 
+    }
+    return favorites;
+}
+
 function favoriteChecked(){
     const checkedJokesArray1 = localStorage.getItem("checkedJokes");
     const favoritesJokes1 = localStorage.getItem("favoritesJokes");
     if(checkedJokesArray1){
-        let checkedJokesArray = JSON.parse(checkedJokesArray1)
-        if (favoritesJokes1){
-            let favoritesJokes = JSON.parse(favoritesJokes1)
-            favoritesJokes = [...favoritesJokes, ...checkedJokesArray]
-            checkedJokesArray = [];
-            localStorage.setItem("favoritesJokes", JSON.stringify(favoritesJokes))
-            localStorage.setItem("checkedJokes", JSON.stringify(checkedJokesArray))
+        if(Array.isArray(checkedJokesArray1)){
+            console.log("array")
+            let checkedJokesArray = JSON.parse(checkedJokesArray1)
+            if (favoritesJokes1){
+                let favoritesJokes = JSON.parse(favoritesJokes1)
+                favoritesJokes = mergeFavorites(checkedJokesArray, favoritesJokes)
+                checkedJokesArray = [];
+                localStorage.setItem("favoritesJokes", JSON.stringify(favoritesJokes))
+                localStorage.setItem("checkedJokes", JSON.stringify(checkedJokesArray))
+        
+            }else{
+    
+                const favoritesJokes = checkedJokesArray
+                checkedJokesArray = [];
+                localStorage.setItem("favoritesJokes", JSON.stringify(favoritesJokes))
+                localStorage.setItem("checkedJokes", JSON.stringify(checkedJokesArray))    
+            }
+        
     
         }else{
-            const favoritesJokes = checkedJokesArray
-            checkedJokesArray = [];
-            localStorage.setItem("favoritesJokes", JSON.stringify(favoritesJokes))
-            localStorage.setItem("checkedJokes", JSON.stringify(checkedJokesArray))    
-        }
+            let checkedJokesArray = JSON.parse([checkedJokesArray1])
+            if (favoritesJokes1){
+                let favoritesJokes = JSON.parse(favoritesJokes1)
+                favoritesJokes = mergeFavorites(checkedJokesArray, favoritesJokes)
+                checkedJokesArray = [];
+                localStorage.setItem("favoritesJokes", JSON.stringify(favoritesJokes))
+                localStorage.setItem("checkedJokes", JSON.stringify(checkedJokesArray))
+        
+            }else{
     
+                const favoritesJokes = checkedJokesArray
+                checkedJokesArray = [];
+                localStorage.setItem("favoritesJokes", JSON.stringify(favoritesJokes))
+                localStorage.setItem("checkedJokes", JSON.stringify(checkedJokesArray))    
+            }
+
+        }
     }
     updateCheckedRefresh(dataJokes);
 }
 
 function updateCheckedRefresh(array){
     let checkedJokesArray = localStorage.getItem("checkedJokes")
-    if(checkedJokesArray){
+    if(checkedJokesArray && JSON.parse(checkedJokesArray).length !== 0){
         checkedJokesArray = JSON.parse(checkedJokesArray)
         for (let index = 0; index < checkedJokesArray.length; index++) {
             const element = checkedJokesArray[index];
@@ -75,37 +108,45 @@ function updateCheckedRefresh(array){
                     const checkboxName = "checkBox" + id;
                     console.log(checkboxName)
                     document.getElementById(checkboxName).checked = true;
+                    console.log(document.getElementById(checkboxName).checked)
                 }
             }
             
         }
-        let sumSelected = checkedJokesArray.length
-        document.getElementById("favoriteCheckedBtn").innerText = `Favorites Checked (${sumSelected})`    
+        updateBtnChecked(checkedJokesArray)
     
-    }for (let index = 0; index < array.length; index++) {
+    }else{
+        for (let index = 0; index < array.length; index++) {
         const element = array[index];
         const id = element.id;
         const checkboxName = "checkBox" + id;
         document.getElementById(checkboxName).checked = false;
-
+        console.log(document.getElementById(checkboxName).checked)
+        document.getElementById("favoriteCheckedBtn").innerText = `Favorites Checked (0)`    
+        }
         
     }
+    
+}
+
+function updateBtnChecked(checkedJokesArray){
+    let sumSelected = checkedJokesArray.length
+    document.getElementById("favoriteCheckedBtn").innerText = `Favorites Checked (${sumSelected})`    
 }
 
 function updateChecked(array, checkBoxId, id){
-    const currentJokeIndex = selestedItemIndex(array, id)
+    const currentJokeIndex = selectedItemIndex(array, id)
     const checkedJokes = localStorage.getItem("checkedJokes")
     if(checkedJokes){
         const checkedJokesArray = JSON.parse(checkedJokes)
         if(checkBoxId.checked){
             checkedJokesArray.push(array[currentJokeIndex])
         }else{
-            const unCheckedIndex = selestedItemIndex(checkedJokesArray, id)
+            const unCheckedIndex = selectedItemIndex(checkedJokesArray, id)
             checkedJokesArray.splice(unCheckedIndex, 1)
         }
         localStorage.setItem("checkedJokes", JSON.stringify(checkedJokesArray))
-        let sumSelected = checkedJokesArray.length
-        document.getElementById("favoriteCheckedBtn").innerText = `Favorites Checked (${sumSelected})`    
+        updateBtnChecked(checkedJokesArray)
 
     }else{
         localStorage.setItem("checkedJokes", JSON.stringify([array[currentJokeIndex]]))
@@ -123,7 +164,7 @@ function checkDouble(array, id){
     return false;
 }
 
-function selestedItemIndex(array, id){
+function selectedItemIndex(array, id){
     const favoriteIndex = array.findIndex(function(currentJoke){
         return currentJoke.id.toString() === id.toString()
     })
