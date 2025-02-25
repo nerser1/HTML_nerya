@@ -1,0 +1,13 @@
+button{
+    font-size: 100px;
+    border: 0;
+    background: none;
+}
+
+#content{
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.card{
+    width: 32%;
+}
