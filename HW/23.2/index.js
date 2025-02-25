@@ -7,7 +7,8 @@ function loadCards(array){
 }
 
 function getCardTemplate(element){
-const {}
+const {Title, Year, Rated, Released, Runtime, Genre, Director, Writer, Images, imdbRating, imdbVotes, imdbID, Type} = element;
+
 }
 
 function init(){
