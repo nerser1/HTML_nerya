@@ -10,7 +10,7 @@ const {Title, Year, Rated, Released, Runtime, Genre, Director, Writer, Images, i
 const content = document.getElementById("content")
 const card = `            <div id="card${imdbID}" class="card d-flex flex-row">
                     <div class="d-flex justify-content-center align-center col-2">
-                        <button onClick="backImage(${Images})"><</button>
+                        <button id="prev-${imdbID}"><</button>
                     </div>
                     <div class="col-8">
                         <h2>${Title}</h2>
@@ -27,21 +27,85 @@ const card = `            <div id="card${imdbID}" class="card d-flex flex-row">
                         <h6>Type: ${Type}</h6>    
                     </div>
                     <div class="d-flex align-center col-2">
-                        <button onClick="nextImage(${Images})">></button>
+                        <button id="next${imdbID}">></button>
                     </div>
                 </div>
 `
 content.innerHTML += card
-console.log(document.getElementById(`card${imdbID}`))
 document.getElementById(`card${imdbID}`).style.backgroundImage = `url(${Images[0]})`
+const next = document.getElementById(`next${imdbID}`)
+console.log(next.innerHTML)
+next.addEventListener("click", () => {
+    console.log("click")
+})
+const prev = document.getElementById(`prev-${imdbID}`)
+prev.addEventListener("click", () => backImage(imdbID, Images))
 }
 
-function nextImage(images){
+function backImage(imdbID, images){
+    console.log("backImage")
+    document.getElementById(`card${imdbID}`).style.backgroundImage = `url(${images[0]})`
+}
+
+function nextImage(imdbID, images){
+    console.log("nextImage")
     document.getElementById(`card${imdbID}`).style.backgroundImage = `url(${images[1]})`
 }
 
+function stats(arr){
+    const result = {};
+    for (let index = 0; index < arr.length; index++) {
+        const element = arr[index];
+        if(result[element.Type]){
+            result[element.Type] += 1;
+        }else{
+            result[element.Type] = 1;
+        }
+    }
+    console.log(result)
+    return result;
+}
+
+
+let chart = null
+function drawChart(result, target){
+    let prop = [];
+    let data = [];
+    for (const property in result) {
+        prop.push(property);
+        data.push(result[property]);
+    }
+
+    const ctx = document.getElementById(`${target}`);
+    if(chart){
+        chart.destroy()
+    }
+    chart = new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels:prop,
+        datasets: [{
+          label: prop,
+          data: data,
+          borderWidth: 3,
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+
+}
+
 function init(){
+    
     loadCards(dataMovie);
+    const statis = stats(dataMovie);
+    drawChart(statis, "myChart");
 }
 
 init();
