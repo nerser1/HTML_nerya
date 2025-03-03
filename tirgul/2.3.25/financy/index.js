@@ -82,6 +82,8 @@ calcBtn.addEventListener("click", function(){
     console.log(content)
 
 })
+createTable(JSON.parse(localStorage.getItem("reveneus")))
+
 }
 
 init();
