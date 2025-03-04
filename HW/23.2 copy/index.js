@@ -3,6 +3,10 @@ function drawCards(array){
     for (let index = 0; index < array.length; index++) {
         const {Title, Year, Rated, Released, Runtime, Genre, Director, Writer, Images, imdbRating, imdbVotes, imdbID, Type} = array[index];
         const _Title = document.createElement("h3");
+        const _favoriteBtn = document.createElement("input");
+        const _Header = document.createElement("div");
+        const _favorite = document.createElement("div");
+        const _favoriteText = document.createElement("p");
         const _Image = document.createElement("div");    
         const _Year = document.createElement("h5");
         const _Rated = document.createElement("h6");
@@ -19,6 +23,14 @@ function drawCards(array){
         card.classList.add("card", "container");
         card.id = imdbID;
         _Title.innerText = Title;
+        _favoriteBtn.type = "checkbox";
+        _favoriteBtn.id = `favoriteBtn${imdbID}`;
+        _favoriteText.innerText = "Favorite";
+        _favoriteText.classList.add("d-flex", "my-0", "me-2");
+        _favorite.append(_favoriteText, _favoriteBtn);
+        _favorite.classList.add("d-flex", "flex-row", "align-items-center");
+        _Header.append(_Title, _favorite);
+        _Header.classList.add("d-flex", "flex-row", "justify-content-between");
         _Image.innerHTML = `<div id="carouselExampleAutoplaying${imdbID}" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
           <div class="carousel-item active">
@@ -52,13 +64,60 @@ function drawCards(array){
         _imdbVotes.innerText = "imdbVotes: " + imdbVotes;
         _imdbID.innerText = "imdbID: " + imdbID;
         _Type.innerText = "Type: " + Type;
-        card.append(_Title, _Image, _Year, _Rated, _Released, _Runtime, _Genre, _Director, _Writer, _imdbRating, _imdbVotes, _imdbID, _Type);
+        card.append(_Header, _Image, _Year, _Rated, _Released, _Runtime, _Genre, _Director, _Writer, _imdbRating, _imdbVotes, _imdbID, _Type);
         content.append(card)
+        document.getElementById(`favoriteBtn${imdbID}`).addEventListener("change", function(){
+            console.log("clicked");
+            if(this.checked){
+                const index = array.findIndex((c) => c.imdbID === imdbID);
+                const favorites = localStorage.getItem("favoritesMovie");
+                if (favorites){
+                    const favoritesArr = JSON.parse(favorites);
+                    favoritesArr.push(array[index]);
+                    localStorage.setItem("favoritesMovie", JSON.stringify(favoritesArr));
+                }else{
+                    const favoritesArr = [];
+                    favoritesArr.push(array[index]);
+                    localStorage.setItem("favoritesMovie", JSON.stringify(favoritesArr));
+                }
+            }else{
+                const favorites = localStorage.getItem("favoritesMovie");
+                const favoritesArr = JSON.parse(favorites);
+                const index = favoritesArr.findIndex((c) => c.imdbID === imdbID);
+                favoritesArr.splice(index, 1);
+                localStorage.setItem("favoritesMovie", JSON.stringify(favoritesArr));
+            }
+        })
+
+    }
+}
+
+function createArrID(array){
+    const favoritesID = [];
+    for (let index = 0; index < array.length; index++) {
+        const element = array[index];
+        favoritesID.push(element.imdbID);
+    }
+    return favoritesID;
+}
+
+function favoritesCheck(){
+    const favorites = localStorage.getItem("favoritesMovie");
+    if(favorites){
+        const favoritesArr = JSON.parse(favorites);
+        const favoritesID = createArrID(favoritesArr);
+        for (let index = 0; index < favoritesID.length; index++) {
+            const id = favoritesID[index];
+            document.getElementById(`favoriteBtn${id}`).checked = true;
+            console.log(document.getElementById(`favoriteBtn${id}`).value)
         }
     }
+}
+
 function init(){
 console.log("start script");
 drawCards(dataMovie);
+favoritesCheck();
 }
 
 init();
