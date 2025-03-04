@@ -114,10 +114,60 @@ function favoritesCheck(){
     }
 }
 
+function stats(array){
+    const stats = {};
+    for (let index = 0; index < array.length; index++) {
+        const element = array[index];
+        if(stats[element.Type]){
+            stats[element.Type] += 1;
+        }else{
+            stats[element.Type] = 1;
+        }
+    }
+    return stats;
+}
+
+let chart = null
+function drawChart(result, target){
+    let prop = [];
+    let data = [];
+    for (const property in result) {
+        prop.push(property);
+        data.push(result[property]);
+    }
+
+    const ctx = document.getElementById(`${target}`);
+    if(chart){
+        chart.destroy()
+    }
+    chart = new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels:prop,
+        datasets: [{
+          label: prop,
+          data: data,
+          borderWidth: 3,
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+
+}
+
+
 function init(){
 console.log("start script");
 drawCards(dataMovie);
 favoritesCheck();
+const statistic = stats(dataMovie);
+drawChart(statistic, "myChart");
 }
 
 init();

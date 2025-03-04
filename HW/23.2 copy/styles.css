@@ -1,3 +1,7 @@
+body{
+    background-color: rgb(204, 204, 204);
+}
+
 h1{
     text-align: center;
     margin: 30px;
@@ -8,4 +12,7 @@ h1{
     margin: 10px;
     background-color: rgb(43, 43, 43);
     color: aliceblue;
+}
+canvas{
+    height: 200px !important ; 
 }

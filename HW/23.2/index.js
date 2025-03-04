@@ -74,7 +74,9 @@ function drawChart(result, target){
     for (const property in result) {
         prop.push(property);
         data.push(result[property]);
+        console.log(prop);
     }
+    console.log(prop);
 
     const ctx = document.getElementById(`${target}`);
     if(chart){
@@ -105,6 +107,7 @@ function init(){
     
     loadCards(dataMovie);
     const statis = stats(dataMovie);
+    console.log(statis);
     drawChart(statis, "myChart");
 }
 
