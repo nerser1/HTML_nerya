@@ -1,10 +1,14 @@
 body{
-    background-color: rgb(204, 204, 204);
+    background-image: url("https://t3.ftcdn.net/jpg/00/86/56/12/360_F_86561234_8HJdzg2iBlPap18K38mbyetKfdw1oNrm.jpg");
+    background-size: 100% 33.3333%;
 }
 
 h1{
+    color: antiquewhite;
     text-align: center;
     margin: 30px;
+    font-family: Cursive;
+    font-size: 100px;
 }
 .card{
     height: 600px;
