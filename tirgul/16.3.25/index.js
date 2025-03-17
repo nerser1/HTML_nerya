@@ -7,8 +7,8 @@ $("#order").on("click", function(){
             phone: $("#phone").val(),
             guests: $("#guests").val()
         }
-        console.log(numOfGuest + object.guests)
-        if(numOfGuest + object.guests <= 10){
+        console.log(numOfGuest + +object.guests)
+        if(numOfGuest + +object.guests <= 10){
             takeOrder(object);
             numOfGuest += +object.guests;
             console.log(numOfGuest)
@@ -19,8 +19,12 @@ $("#order").on("click", function(){
 function takeOrder(object){
     const table = $('<div></div>')
     table.addClass("table")
+    table.append($(`<div class="headTable"><h4>${object.name}</h4></div>`))
+    const guestTable = $('<div></div>')
+    guestTable.addClass("guestsTable")
     for (let index = 0; index < object.guests; index++) {
-        table.append(index)
+        guestTable.append($(`<p>${index+1}</p>`))
     }
+    table.append(guestTable);
     $('#content').append(table);
 }
