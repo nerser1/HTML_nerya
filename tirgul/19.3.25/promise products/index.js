@@ -17,10 +17,36 @@ function showLoader(show) {
         document.querySelector("#content").innerHTML = ""
     }
 }
+
+function search(input) {
+    fetch(productsUrl).then((result) => {
+        result.json().then(data => {
+            const products = data.products
+            console.log(products)
+            if (!Array.isArray(products)) return
+            const productSearch = [];
+            for (let index = 0; index < products.length; index++) {
+                if (products[index].title.toLowerCase().includes(input)) {
+                    productSearch.push(products[index])
+                }
+
+            }
+            showLoader(false)
+            draw(productSearch)
+
+        })
+    })
+}
+
 function init() {
-    document.getElementById("getAll").addEventListener("click", callGetProducts)
+    callGetProducts()
     document.getElementById("increaseCounter").addEventListener("click", () => {
         document.querySelector("#counter").innerText = Number(document.querySelector("#counter").innerText) + 1
+    })
+    document.getElementById("searchBtn").addEventListener("click", () => {
+        const searchInput = document.getElementById("searchText").value;
+        showLoader(true)
+        search(searchInput);
     })
 }
 
