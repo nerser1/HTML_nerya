@@ -7,6 +7,7 @@ function callGetProducts() {
             const products = data.products
             showLoader(false)
             draw(products)
+            return products
         })
     }).catch(res => console.log(res))
 }
@@ -39,7 +40,7 @@ function search(input) {
 }
 
 function init() {
-    callGetProducts()
+    const products = callGetProducts()
     document.getElementById("increaseCounter").addEventListener("click", () => {
         document.querySelector("#counter").innerText = Number(document.querySelector("#counter").innerText) + 1
     })
