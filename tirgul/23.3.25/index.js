@@ -13,10 +13,24 @@ function insertDropdown() {
 }
 
 function draw(products) {
+    if (!products) document.getElementById("content").innerHTML = '';
     document.getElementById("content").innerHTML = ''
     console.log(products)
     const cards = document.createElement("div")
     cards.classList.add('d-flex', 'flex-wrap', 'gap-3')
+    const prevBtn = document.createElement("button")
+    prevBtn.id = 'prevBtn'
+    prevBtn.addEventListener("click", () => {
+        moveCards('prev')
+    })
+    prevBtn.innerHTML = '<i class="bi bi-caret-left"></i>'
+    const nextBtn = document.createElement("button")
+    nextBtn.id = 'nextBtn'
+    nextBtn.addEventListener("click", () => {
+        moveCards('next')
+    })
+    nextBtn.innerHTML = '<i class="bi bi-caret-right"></i>'
+
     for (let index = 0; index < products.length; index++) {
         const element = products[index];
         const card = document.createElement("div");
@@ -33,20 +47,40 @@ function draw(products) {
         card.append(img, div)
         cards.append(card)
     }
-    document.getElementById("content").append(cards)
+    document.getElementById("content").append(prevBtn, cards, nextBtn)
 }
 
 function filter() {
     const category = document.getElementById("dropdown").value.toLowerCase()
-    fetch(`https://dummyjson.com/products/category/${category}`).then(data => {
+    fetch(`https://dummyjson.com/products/category/${category}?limit=3&skip=${skip}`).then(data => {
+        console.log(data)
         data.json().then((s) => {
-            draw(s.products)
+            console.log(s)
+            console.log(s.products.length)
+            if (s.products.length === 0) {
+                skip -= 3;
+                console.log(skip)
+            } else {
+                draw(s.products)
+            }
         })
     })
 }
+let skip = 0;
+function moveCards(direction) {
+    if (direction === 'next') {
+        skip += 3;
+        filter()
+    } else if (skip > 0) {
+        skip -= 3;
+        filter()
+    }
+
+}
+
 
 function drawAll() {
-    fetch(`https://dummyjson.com/products`).then(data => {
+    fetch(`https://dummyjson.com/products?limit=3`).then(data => {
         data.json().then((s) => {
             draw(s.products)
         })
@@ -56,7 +90,9 @@ function drawAll() {
 function init() {
     insertDropdown()
     drawAll()
-    document.getElementById("dropdown").addEventListener("change", filter)
+    document.getElementById("dropdown").addEventListener("change", () => {
+        filter(0)
+    })
 }
 
 init()
