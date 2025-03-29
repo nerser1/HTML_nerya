@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./index.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div style="display: flex;justify-content: center;">
+        <select id="categoriesSelect">
+            <option value="noValue"> Select your Category </option>
+        </select>
+    </div>
+    <div style="display: flex;justify-content: center;">
+        <div id="loader" style="display: none;" class="loading-wave">
+            <div class="loading-bar"></div>
+            <div class="loading-bar"></div>
+            <div class="loading-bar"></div>
+            <div class="loading-bar"></div>
+        </div>
+    </div>
+    <div style="display: flex;justify-content: center;align-items:self-start; width:80%; margin:auto">
+        <div style="border: 1px solid black; padding:20px" id="content"></div>
+        <div style="border: 1px solid black; padding:20px" id="stats"></div>
+    </div>
+    <script src="./index.js"></script>
+</body>
+
+</html>
