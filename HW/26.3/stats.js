@@ -1,3 +1,4 @@
+
 function drawStats(products, proto, num) {
     const stats = {};
     const labels = [];
@@ -18,6 +19,15 @@ function drawStats(products, proto, num) {
             data.push(stats[key]);
         }
     }
+    let chart = null;
+
+    createChart(chart, labels, data, num)
+
+
+
+}
+
+function createChart(chart, labels, data, num) {
     const ctx = document.getElementById(`myChart${num}`);
 
     if (chart) {
@@ -41,7 +51,6 @@ function drawStats(products, proto, num) {
             }
         }
     });
-
 }
 
 function clnStats() {
