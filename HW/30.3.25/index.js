@@ -1,5 +1,6 @@
 const DOM = {
     countrySelect: document.getElementById('countrySelector'),
+    img: document.getElementById('img'),
     content: document.getElementById('content'),
     loader: document.getElementById('loader'),
     chart1: document.getElementById('myChart1'),
@@ -26,12 +27,12 @@ async function drawContent(value) {
     loaderOn()
     const result = await fetch(`https://restcountries.com/v3.1/alpha/${value}`)
     const data = await result.json()
-    DOM.content.innerHTML = `<img src=${data[0].flags.png}>`
+    DOM.img.innerHTML = `<img src=${data[0].flags.png}>`
     loaderoff()
 }
 
 async function getApiData(url) {
-    const result = await fetch(url)
+    const result = await fetch(url);
     const data = await result.json()
     return data;
 }
@@ -114,12 +115,51 @@ function loaderoff() {
     DOM.loader.style.display = 'none';
 }
 
-function init() {
+async function getCountrysWithMaxBorder() {
+    try {
+        const data = await getApiData('https://restcountries.com/v3.1/all');
+        console.log(data)
+        let maxBorder = 0;
+        const maxBorderCountrys = [];
+        data.forEach((d) => {
+            if (!d.borders) return
+            if (d.borders.length > maxBorder) {
+                maxBorder = d.borders.length;
+                maxBorderCountrys.push(d.name.common);
+            } else if (d.borders.length === maxBorder) {
+                maxBorderCountrys.push(d.name.common);
+            }
+            console.log(maxBorderCountrys)
+        })
+        return maxBorderCountrys;
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+function drawMaxBorderCountrys(countrys) {
+    const div = document.createElement("div");
+    const h3 = document.createElement("h3");
+    h3.innerText = "Max Border Country Is: "
+    const countrysDiv = document.createElement("div");
+    countrysDiv.style = 'display:flex; justify-content:center;'
+    countrys.forEach((c) => {
+        const p = document.createElement("p");
+        p.innerText = c;
+        countrysDiv.append(p)
+    })
+    div.append(h3, countrysDiv)
+    DOM.content.append(div)
+}
+
+async function init() {
     getAPI()
     stats()
     DOM.countrySelect.addEventListener('change', () => {
         drawContent(DOM.countrySelect.value)
     })
+    const maxBorderCountrys = await getCountrysWithMaxBorder()
+    drawMaxBorderCountrys(maxBorderCountrys)
 
 }
 
